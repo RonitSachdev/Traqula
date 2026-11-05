@@ -5,9 +5,12 @@ import os
 
 /// Captures the default microphone through an `AVAudioEngine` input tap.
 ///
-/// Voice processing is turned on so macOS cancels the echo of whatever the speakers play; without it,
-/// remote participants heard through the speakers come back as "Me". Measured on a MacBook: with the
-/// canceller on, speaker playback produced no transcript at all. Microphone access must already be granted.
+/// When the Mac plays through its own speakers, voice processing is turned on so macOS cancels the echo of
+/// whatever they play; without it, remote participants heard through the speakers come back as "Me".
+/// Measured on a MacBook: with the canceller on, speaker playback produced no transcript at all. The
+/// canceller also makes macOS lower every other app's audio while it runs, so it stays off for headphones
+/// and external outputs, where there is no echo to cancel. The choice is made when capture starts.
+/// Microphone access must already be granted.
 final class MicrophoneSource: AudioSource {
     let channel = AudioChannel.microphone
 
@@ -25,16 +28,18 @@ final class MicrophoneSource: AudioSource {
 
     func start() throws -> AsyncStream<AVAudioPCMBuffer> {
         let input = engine.inputNode
-        do {
-            try input.setVoiceProcessingEnabled(true)
-            // Voice processing ducks every other app's audio by default, which quietens the very meeting
-            // being captioned. Keep the echo canceller, drop the ducking.
-            input.voiceProcessingOtherAudioDuckingConfiguration = AVAudioVoiceProcessingOtherAudioDuckingConfiguration(
-                enableAdvancedDucking: false, duckingLevel: .min
-            )
-        } catch {
-            Self.logger.error("Voice processing unavailable, capturing raw microphone: \(error, privacy: .public)")
+        let playsThroughSpeakers = (try? AudioObjectID.system.readDefaultOutputDevice().isBuiltInSpeaker()) ?? true
+        if playsThroughSpeakers {
+            do {
+                try input.setVoiceProcessingEnabled(true)
+                input.voiceProcessingOtherAudioDuckingConfiguration = AVAudioVoiceProcessingOtherAudioDuckingConfiguration(
+                    enableAdvancedDucking: false, duckingLevel: .min
+                )
+            } catch {
+                Self.logger.error("Voice processing unavailable, capturing raw microphone: \(error, privacy: .public)")
+            }
         }
+        Self.logger.notice("Microphone capture started, echo cancellation \(playsThroughSpeakers ? "on (built-in speakers)" : "off (headphones or external output)", privacy: .public)")
         let format = input.outputFormat(forBus: 0)
         // Voice processing exposes the whole microphone array; the recognizer wants one channel.
         guard let mono = AVAudioFormat(standardFormatWithSampleRate: format.sampleRate, channels: 1) else {

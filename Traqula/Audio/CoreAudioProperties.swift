@@ -15,6 +15,23 @@ extension AudioObjectID {
         try read(kAudioHardwarePropertyDefaultSystemOutputDevice, initial: AudioDeviceID(kAudioObjectUnknown))
     }
 
+    func readDefaultOutputDevice() throws -> AudioDeviceID {
+        try read(kAudioHardwarePropertyDefaultOutputDevice, initial: AudioDeviceID(kAudioObjectUnknown))
+    }
+
+    /// The built-in audio device's data source for its internal speaker ('ispk' in IOKit's audio types).
+    private static let internalSpeakerSource: UInt32 = 0x6973_706B
+
+    /// True for the Mac's own speakers, as opposed to headphones or any external output.
+    func isBuiltInSpeaker() -> Bool {
+        guard let transport = try? read(kAudioDevicePropertyTransportType, initial: UInt32(0)),
+              transport == kAudioDeviceTransportTypeBuiltIn,
+              let source = try? read(kAudioDevicePropertyDataSource, scope: kAudioObjectPropertyScopeOutput, initial: UInt32(0)) else {
+            return false
+        }
+        return source == Self.internalSpeakerSource
+    }
+
     func readDeviceUID() throws -> String {
         try read(kAudioDevicePropertyDeviceUID, initial: "" as CFString) as String
     }

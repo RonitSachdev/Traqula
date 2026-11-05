@@ -117,9 +117,10 @@ MicrophoneSource┘   (per channel)       │          └─ Translator (per fi
 
 - **Audio** (`Traqula/Audio`): `SystemAudioTap` is a Core Audio process tap wrapped in a private
   aggregate device, so there is no virtual audio driver and no screen-recording permission.
-  `MicrophoneSource` is an `AVAudioEngine` input tap with voice processing on, so the system's echo
-  canceller removes speaker playback and remote voices do not come back as "Me". Both implement
-  `AudioSource` and hand over owned buffers.
+  `MicrophoneSource` is an `AVAudioEngine` input tap; when the Mac plays through its own speakers it turns
+  voice processing on, so the system's echo canceller removes speaker playback and remote voices do not
+  come back as "Me" (the canceller also lowers other apps' audio, so it stays off for headphones). Both
+  implement `AudioSource` and hand over owned buffers.
 - **Speech** (`Traqula/Speech`): `LiveTranscriber` runs one `SpeechAnalyzer` per channel with the
   `DictationTranscriber` module and forces finalization at sentence punctuation or after 2.5 s of
   unchanged text. See "Why the dictation module" below.
