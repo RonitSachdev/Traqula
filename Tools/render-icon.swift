@@ -22,8 +22,8 @@ func mascotBody() -> CGMutablePath {
     let r = bubbleCornerRadius
     let (left, top, right, bottom) = (bubble.minX, bubble.minY, bubble.maxX, bubble.maxY)
     // The fang must start past the bottom-left corner arc (x ≥ left + r), or the arc cannot fit and leaves a kink.
-    let fangBase = (left: CGFloat(30), right: CGFloat(48))
-    let fangTip = CGPoint(x: 40, y: 93)
+    let fangBase = (left: CGFloat(28), right: CGFloat(46))
+    let fangTip = CGPoint(x: 38, y: 93)
 
     let path = CGMutablePath()
     path.move(to: CGPoint(x: left + r, y: top))
@@ -32,8 +32,8 @@ func mascotBody() -> CGMutablePath {
     // Along the bottom edge, the outline dips into a curved fang: a convex outer edge and a hollowed inner edge,
     // like a canine tooth, hooking slightly toward the center.
     path.addLine(to: CGPoint(x: fangBase.right, y: bottom))
-    path.addCurve(to: fangTip, control1: CGPoint(x: 44, y: 82), control2: CGPoint(x: 41, y: 89))
-    path.addCurve(to: CGPoint(x: fangBase.left, y: bottom), control1: CGPoint(x: 36, y: 93), control2: CGPoint(x: 30, y: 87))
+    path.addCurve(to: fangTip, control1: CGPoint(x: 42, y: 82), control2: CGPoint(x: 39, y: 89))
+    path.addCurve(to: CGPoint(x: fangBase.left, y: bottom), control1: CGPoint(x: 34, y: 93), control2: CGPoint(x: 28, y: 87))
     path.addArc(tangent1End: CGPoint(x: left, y: bottom), tangent2End: CGPoint(x: left, y: top), radius: r)
     path.addArc(tangent1End: CGPoint(x: left, y: top), tangent2End: CGPoint(x: right, y: top), radius: r)
     path.closeSubpath()
