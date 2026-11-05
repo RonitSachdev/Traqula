@@ -27,6 +27,11 @@ final class MicrophoneSource: AudioSource {
         let input = engine.inputNode
         do {
             try input.setVoiceProcessingEnabled(true)
+            // Voice processing ducks every other app's audio by default, which quietens the very meeting
+            // being captioned. Keep the echo canceller, drop the ducking.
+            input.voiceProcessingOtherAudioDuckingConfiguration = AVAudioVoiceProcessingOtherAudioDuckingConfiguration(
+                enableAdvancedDucking: false, duckingLevel: .min
+            )
         } catch {
             Self.logger.error("Voice processing unavailable, capturing raw microphone: \(error, privacy: .public)")
         }

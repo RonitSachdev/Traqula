@@ -14,7 +14,7 @@ struct AudioBufferTests {
         let buffer = try #require(samples.withUnsafeMutableBytes { bytes -> AVAudioPCMBuffer? in
             var list = AudioBufferList(mNumberBuffers: 1, mBuffers: AudioBuffer(
                 mNumberChannels: 2, mDataByteSize: UInt32(bytes.count), mData: bytes.baseAddress))
-            return AVAudioPCMBuffer(deinterleaving: &list, sampleRate: sampleRate)
+            return AVAudioPCMBuffer(deinterleaving: &list, sampleRate: sampleRate, preferring: 2)
         })
 
         #expect(buffer.format.channelCount == 2)
@@ -40,7 +40,7 @@ struct AudioBufferTests {
                 let buffers = UnsafeMutableAudioBufferListPointer(list)
                 buffers[0] = AudioBuffer(mNumberChannels: 1, mDataByteSize: UInt32(leftBytes.count), mData: leftBytes.baseAddress)
                 buffers[1] = AudioBuffer(mNumberChannels: 1, mDataByteSize: UInt32(rightBytes.count), mData: rightBytes.baseAddress)
-                return AVAudioPCMBuffer(deinterleaving: list, sampleRate: sampleRate)
+                return AVAudioPCMBuffer(deinterleaving: list, sampleRate: sampleRate, preferring: 2)
             }
         })
 
@@ -49,6 +49,73 @@ struct AudioBufferTests {
         let channels = try #require(buffer.floatChannelData)
         #expect(Array(UnsafeBufferPointer(start: channels[0], count: frames)) == [1, 2, 3, 4])
         #expect(Array(UnsafeBufferPointer(start: channels[1], count: frames)) == [5, 6, 7, 8])
+    }
+
+    @Test func picksTheTapStreamBesideAHeadsetMicrophoneStream() throws {
+        var mic: [Float] = [9, 9, 9, 9]
+        var tap: [Float] = (0..<frames).flatMap { [Float($0), Float($0) + 100] }
+        let buffer = try #require(mic.withUnsafeMutableBytes { micBytes -> AVAudioPCMBuffer? in
+            tap.withUnsafeMutableBytes { tapBytes -> AVAudioPCMBuffer? in
+                let size = MemoryLayout<AudioBufferList>.size + MemoryLayout<AudioBuffer>.stride
+                let raw = UnsafeMutableRawPointer.allocate(byteCount: size, alignment: MemoryLayout<AudioBufferList>.alignment)
+                defer { raw.deallocate() }
+                let list = raw.assumingMemoryBound(to: AudioBufferList.self)
+                list.pointee.mNumberBuffers = 2
+                let buffers = UnsafeMutableAudioBufferListPointer(list)
+                buffers[0] = AudioBuffer(mNumberChannels: 1, mDataByteSize: UInt32(micBytes.count), mData: micBytes.baseAddress)
+                buffers[1] = AudioBuffer(mNumberChannels: 2, mDataByteSize: UInt32(tapBytes.count), mData: tapBytes.baseAddress)
+                return AVAudioPCMBuffer(deinterleaving: list, sampleRate: sampleRate, preferring: 2)
+            }
+        })
+
+        #expect(buffer.format.channelCount == 2)
+        let channels = try #require(buffer.floatChannelData)
+        #expect(Array(UnsafeBufferPointer(start: channels[0], count: frames)) == [0, 1, 2, 3])
+        #expect(Array(UnsafeBufferPointer(start: channels[1], count: frames)) == [100, 101, 102, 103])
+    }
+
+    @Test func takesTheLastStereoStreamWhenTwoArrive() throws {
+        // Seen with wired earphones: a stereo input stream of the headphone device rides before the tap.
+        var first: [Float] = [9, 9, 9, 9, 9, 9, 9, 9]
+        var tap: [Float] = (0..<frames).flatMap { [Float($0), Float($0) + 100] }
+        let buffer = try #require(first.withUnsafeMutableBytes { firstBytes -> AVAudioPCMBuffer? in
+            tap.withUnsafeMutableBytes { tapBytes -> AVAudioPCMBuffer? in
+                let size = MemoryLayout<AudioBufferList>.size + MemoryLayout<AudioBuffer>.stride
+                let raw = UnsafeMutableRawPointer.allocate(byteCount: size, alignment: MemoryLayout<AudioBufferList>.alignment)
+                defer { raw.deallocate() }
+                let list = raw.assumingMemoryBound(to: AudioBufferList.self)
+                list.pointee.mNumberBuffers = 2
+                let buffers = UnsafeMutableAudioBufferListPointer(list)
+                buffers[0] = AudioBuffer(mNumberChannels: 2, mDataByteSize: UInt32(firstBytes.count), mData: firstBytes.baseAddress)
+                buffers[1] = AudioBuffer(mNumberChannels: 2, mDataByteSize: UInt32(tapBytes.count), mData: tapBytes.baseAddress)
+                return AVAudioPCMBuffer(deinterleaving: list, sampleRate: sampleRate, preferring: 2)
+            }
+        })
+
+        #expect(buffer.format.channelCount == 2)
+        #expect(buffer.frameLength == AVAudioFrameCount(frames))
+        let channels = try #require(buffer.floatChannelData)
+        #expect(Array(UnsafeBufferPointer(start: channels[0], count: frames)) == [0, 1, 2, 3])
+        #expect(Array(UnsafeBufferPointer(start: channels[1], count: frames)) == [100, 101, 102, 103])
+    }
+
+    @Test func skipsStreamsWithoutData() throws {
+        var tap: [Float] = [1, 2, 3, 4]
+        let buffer = try #require(tap.withUnsafeMutableBytes { tapBytes -> AVAudioPCMBuffer? in
+            let size = MemoryLayout<AudioBufferList>.size + MemoryLayout<AudioBuffer>.stride
+            let raw = UnsafeMutableRawPointer.allocate(byteCount: size, alignment: MemoryLayout<AudioBufferList>.alignment)
+            defer { raw.deallocate() }
+            let list = raw.assumingMemoryBound(to: AudioBufferList.self)
+            list.pointee.mNumberBuffers = 2
+            let buffers = UnsafeMutableAudioBufferListPointer(list)
+            buffers[0] = AudioBuffer(mNumberChannels: 1, mDataByteSize: 4096, mData: nil)
+            buffers[1] = AudioBuffer(mNumberChannels: 1, mDataByteSize: UInt32(tapBytes.count), mData: tapBytes.baseAddress)
+            return AVAudioPCMBuffer(deinterleaving: list, sampleRate: sampleRate, preferring: 2)
+        })
+
+        #expect(buffer.format.channelCount == 1)
+        let channels = try #require(buffer.floatChannelData)
+        #expect(Array(UnsafeBufferPointer(start: channels[0], count: frames)) == [1, 2, 3, 4])
     }
 
     @Test func standardStereoConvertsToTheRecognizerFormat() throws {

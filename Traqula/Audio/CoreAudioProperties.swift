@@ -19,6 +19,10 @@ extension AudioObjectID {
         try read(kAudioDevicePropertyDeviceUID, initial: "" as CFString) as String
     }
 
+    func readTapStreamFormat() throws -> AudioStreamBasicDescription {
+        try read(kAudioTapPropertyFormat, initial: AudioStreamBasicDescription())
+    }
+
     /// The format a device's input I/O callback delivers.
     func readInputStreamFormat() throws -> AudioStreamBasicDescription {
         try read(kAudioDevicePropertyStreamFormat, scope: kAudioObjectPropertyScopeInput, initial: AudioStreamBasicDescription())
