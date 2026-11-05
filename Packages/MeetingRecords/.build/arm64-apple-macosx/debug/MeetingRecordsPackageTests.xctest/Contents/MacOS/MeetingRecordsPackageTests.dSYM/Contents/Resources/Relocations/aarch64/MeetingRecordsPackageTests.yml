@@ -1,0 +1,5 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingRecordsPackageTests.xctest/Contents/MacOS/MeetingRecordsPackageTests'
+relocations:     []
+...

@@ -1,4 +1,5 @@
 @preconcurrency import AVFoundation
+import MeetingRecords
 
 /// A live source of PCM audio.
 ///

@@ -1,4 +1,5 @@
 @preconcurrency import AVFoundation
+import MeetingRecords
 
 /// Captures the default microphone through an `AVAudioEngine` input tap.
 ///

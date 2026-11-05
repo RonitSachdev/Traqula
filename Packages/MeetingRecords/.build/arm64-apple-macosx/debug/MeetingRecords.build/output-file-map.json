@@ -1,0 +1,26 @@
+{
+  "": {
+    "swift-dependencies": "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingRecords.build/master.swiftdeps"
+  },
+  "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/Sources/MeetingRecords/MeetingLibrary.swift": {
+    "dependencies": "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingRecords.build/MeetingLibrary.d",
+    "object": "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingRecords.build/MeetingLibrary.swift.o",
+    "swiftmodule": "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingRecords.build/MeetingLibrary~partial.swiftmodule",
+    "swift-dependencies": "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingRecords.build/MeetingLibrary.swiftdeps",
+    "diagnostics": "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingRecords.build/MeetingLibrary.dia"
+  },
+  "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/Sources/MeetingRecords/MeetingRecord.swift": {
+    "dependencies": "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingRecords.build/MeetingRecord.d",
+    "object": "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingRecords.build/MeetingRecord.swift.o",
+    "swiftmodule": "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingRecords.build/MeetingRecord~partial.swiftmodule",
+    "swift-dependencies": "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingRecords.build/MeetingRecord.swiftdeps",
+    "diagnostics": "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingRecords.build/MeetingRecord.dia"
+  },
+  "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/Sources/MeetingRecords/Utterance.swift": {
+    "dependencies": "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingRecords.build/Utterance.d",
+    "object": "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingRecords.build/Utterance.swift.o",
+    "swiftmodule": "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingRecords.build/Utterance~partial.swiftmodule",
+    "swift-dependencies": "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingRecords.build/Utterance.swiftdeps",
+    "diagnostics": "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingRecords.build/Utterance.dia"
+  }
+}

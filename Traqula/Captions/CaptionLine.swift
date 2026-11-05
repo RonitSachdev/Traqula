@@ -1,4 +1,5 @@
 import Foundation
+import MeetingRecords
 
 /// One line in the caption window: what was said on a channel and, once available, its translation.
 struct CaptionLine: Identifiable, Sendable, Equatable {

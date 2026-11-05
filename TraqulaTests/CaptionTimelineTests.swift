@@ -1,5 +1,6 @@
 import Testing
 @testable import Traqula
+import MeetingRecords
 
 struct CaptionTimelineTests {
     private func update(_ text: String, final isFinal: Bool, start: Double = 0, end: Double = 1) -> TranscriptionUpdate {

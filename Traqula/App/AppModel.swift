@@ -3,6 +3,7 @@ import Foundation
 import Observation
 import Speech
 import Translation
+import MeetingRecords
 
 enum AppError: LocalizedError {
     case microphoneAccessDenied

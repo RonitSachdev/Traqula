@@ -5,6 +5,16 @@ options:
   deploymentTarget:
     macOS: "26.0"
   createIntermediateGroups: true
+packages:
+  MCP:
+    url: https://github.com/modelcontextprotocol/swift-sdk
+    from: 0.12.0
+  # swift-log 1.17 needs Swift 6.3; keep the last release that builds with Xcode 26.1.
+  swift-log:
+    url: https://github.com/apple/swift-log
+    minorVersion: 1.16.0
+  MeetingRecords:
+    path: Packages/MeetingRecords
 settings:
   base:
     SWIFT_VERSION: "6.0"
@@ -27,6 +37,23 @@ targets:
         LSMinimumSystemVersion: "26.0"
         NSAudioCaptureUsageDescription: Traqula listens to the audio your Mac plays so it can caption and translate meetings.
         NSMicrophoneUsageDescription: Traqula listens to your microphone so your own words appear in the meeting transcript.
+    dependencies:
+      - package: MeetingRecords
+      # The MCP server ships inside the app bundle (Contents/MacOS/traqula-mcp).
+      - target: traqula-mcp
+        embed: true
+        copy:
+          destination: executables
+  traqula-mcp:
+    type: tool
+    platform: macOS
+    sources:
+      - TraqulaMCP
+    dependencies:
+      - package: MCP
+      - package: swift-log
+        product: Logging
+      - package: MeetingRecords
   TraqulaTests:
     type: bundle.unit-test
     platform: macOS
@@ -42,6 +69,7 @@ schemes:
     build:
       targets:
         Traqula: all
+        traqula-mcp: all
         TraqulaTests: [test]
     run:
       config: Debug

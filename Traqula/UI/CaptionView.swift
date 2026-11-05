@@ -1,4 +1,5 @@
 import SwiftUI
+import MeetingRecords
 
 /// Every caption line of the session on a soft rounded glass card. The list stays pinned to the newest
 /// line, and scrolling up to re-read earlier lines is allowed.

@@ -1,4 +1,5 @@
 import Foundation
+import MeetingRecords
 
 /// Every caption line of a session in order: all finalized lines plus at most one in-progress line per channel.
 ///

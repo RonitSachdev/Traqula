@@ -1,5 +1,6 @@
 import Foundation
 import Observation
+import MeetingRecords
 
 /// One captioning run.
 ///

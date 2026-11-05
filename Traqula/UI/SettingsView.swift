@@ -15,6 +15,7 @@ struct SettingsView: View {
     @State private var speechLanguages: [String] = []
     @State private var translationLanguages: [String] = []
     @State private var models = TranslationModels()
+    @State private var assistants = AssistantConnections()
 
     var body: some View {
         Form {
@@ -50,6 +51,40 @@ struct SettingsView: View {
             Section("Audio") {
                 Toggle("Also caption my microphone", isOn: $captureMicrophone)
             }
+            Section {
+                if let executable = assistants.executable {
+                    ForEach(MCPClient.known) { client in
+                        LabeledContent(client.name) {
+                            switch assistants.statuses[client.id] ?? .notInstalled {
+                            case .connected:
+                                Label("Connected", systemImage: "checkmark.circle.fill").foregroundStyle(.green)
+                            case .available:
+                                Button("Connect") { assistants.connect(client) }
+                            case .notInstalled:
+                                Text("Not installed").foregroundStyle(.secondary)
+                            }
+                        }
+                    }
+                    LabeledContent("Claude Code") {
+                        Button("Copy command") { assistants.copy(MCPServer.claudeCodeCommand(for: executable), label: "Command") }
+                    }
+                    LabeledContent("Codex CLI") {
+                        Button("Copy config") { assistants.copy(MCPServer.codexSnippet(for: executable), label: "Config") }
+                    }
+                    LabeledContent("Any other MCP client") {
+                        Button("Copy JSON") { assistants.copy(MCPServer.jsonSnippet(for: executable), label: "JSON") }
+                    }
+                    if let message = assistants.message {
+                        Text(message).font(.footnote).foregroundStyle(.secondary)
+                    }
+                } else {
+                    Text("This build is missing the MCP server.").foregroundStyle(.secondary)
+                }
+            } header: {
+                Text("AI assistants")
+            } footer: {
+                Text("Lets an assistant list, read, and search your meeting transcripts over MCP. It only reads; nothing leaves the Mac unless the assistant you connect sends it. If you move Traqula.app, connect again.")
+            }
             Section("Captions") {
                 Toggle("Show the original text under the translation", isOn: $showOriginalText)
                 Toggle("Hide captions from screen sharing and screenshots", isOn: $hideFromScreenSharing)
@@ -66,6 +101,7 @@ struct SettingsView: View {
         }
         .formStyle(.grouped)
         .frame(width: 460)
+        .onAppear { assistants.refresh() }
         .task {
             let speechLocales = await DictationTranscriber.supportedLocales
             speechLanguages = Set(speechLocales.map { $0.language.minimalIdentifier }).sorted()

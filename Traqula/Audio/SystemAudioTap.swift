@@ -1,5 +1,6 @@
 import AudioToolbox
 @preconcurrency import AVFoundation
+import MeetingRecords
 
 /// Captures everything the Mac plays through its default output device with a Core Audio process tap.
 ///

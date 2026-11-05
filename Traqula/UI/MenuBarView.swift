@@ -1,5 +1,6 @@
 import AppKit
 import SwiftUI
+import MeetingRecords
 
 struct MenuBarView: View {
     let model: AppModel
