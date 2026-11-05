@@ -46,6 +46,11 @@ final class AppModel {
     init() {
         CaptionSettings.registerDefaults()
         do {
+            try BrowserExtension.install()
+        } catch {
+            statusMessage = "Could not install the Chrome extension folder: \(error.localizedDescription)"
+        }
+        do {
             bridgeServer = try MeetingBridgeServer(
                 onSnapshot: { [weak self] snapshot in self?.bridgeDidReport(snapshot) },
                 onConnectionCountChange: { [weak self] count in self?.bridge.isExtensionConnected = count > 0 }

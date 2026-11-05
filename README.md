@@ -74,8 +74,9 @@ extension watches the meeting page and tells the app what it shows:
 
 The extension talks only to Traqula on `127.0.0.1`; it never clicks or changes anything on the page.
 
-Install it once: Settings › Browser meetings › **Show Extension Folder**, then in Chrome open
-`chrome://extensions`, turn on **Developer mode**, press **Load unpacked**, and choose that folder.
+Install it once: Settings › Browser meetings › **Copy Path**, then in Chrome open `chrome://extensions`,
+turn on **Developer mode**, press **Load unpacked**, press ⌘⇧G in the file dialog, and paste the path
+(`~/Library/Application Support/Traqula/Extension`, kept up to date by the app at launch).
 The source is in [`extension/`](extension); each site's selectors live in one small adapter file, which is
 the file to fix when a site redesigns its page. Until then the app simply falls back to "Them" and "Me".
 

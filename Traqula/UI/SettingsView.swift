@@ -68,15 +68,16 @@ struct SettingsView: View {
                 }
                 Toggle("Pause my captions when I'm muted in the meeting", isOn: $followBrowserMute)
                 Toggle("Start and stop captions with the meeting", isOn: $autoStartBrowserMeetings)
-                Button("Show Extension Folder") {
-                    if let folder = Bundle.main.resourceURL?.appending(path: "extension") {
-                        NSWorkspace.shared.activateFileViewerSelecting([folder])
+                LabeledContent("Extension folder") {
+                    HStack {
+                        Button("Show in Finder") { BrowserExtension.reveal() }
+                        Button("Copy Path") { BrowserExtension.copyPath() }
                     }
                 }
             } header: {
                 Text("Browser meetings")
             } footer: {
-                Text("Google Meet, Zoom, and Teams in Chrome can tell Traqula who is speaking, whether you are muted, and who is in the call. Install once: open chrome://extensions, turn on Developer mode, press Load unpacked, and choose the extension folder. Names then replace Them and Me in captions and transcripts.")
+                Text("Google Meet, Zoom, and Teams in Chrome can tell Traqula who is speaking, whether you are muted, and who is in the call. Install once: open chrome://extensions, turn on Developer mode, press Load unpacked, then press ⌘⇧G in the file dialog and paste the copied path. Names then replace Them and Me in captions and transcripts.")
             }
             Section {
                 if let executable = assistants.executable {
