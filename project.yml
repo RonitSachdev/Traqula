@@ -29,6 +29,10 @@ targets:
     platform: macOS
     sources:
       - Traqula
+      # The Chrome extension ships inside the bundle so Settings can point Chrome at it.
+      - path: extension
+        type: folder
+        buildPhase: resources
     info:
       path: Traqula/Info.plist
       properties:

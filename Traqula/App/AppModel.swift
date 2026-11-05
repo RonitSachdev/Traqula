@@ -36,12 +36,45 @@ final class AppModel {
     private(set) var statusMessage: String?
     /// True while the microphone channel is feeding silence, e.g. because the user is muted in the meeting.
     private(set) var isMicrophonePaused = false
+    /// What the browser extension reports about the current meeting page.
+    let bridge = MeetingBridge()
 
     private var panel: CaptionPanelController?
     private var microphone: MicrophoneSource?
+    private var bridgeServer: MeetingBridgeServer?
 
     init() {
         CaptionSettings.registerDefaults()
+        do {
+            bridgeServer = try MeetingBridgeServer(
+                onSnapshot: { [weak self] snapshot in self?.bridgeDidReport(snapshot) },
+                onConnectionCountChange: { [weak self] count in self?.bridge.isExtensionConnected = count > 0 }
+            )
+        } catch {
+            statusMessage = "Browser meeting bridge unavailable: \(error.localizedDescription)"
+        }
+    }
+
+    // MARK: Browser meetings
+
+    private func bridgeDidReport(_ snapshot: BridgeSnapshot) {
+        let wasInCall = bridge.inCall
+        bridge.apply(snapshot)
+        let settings = CaptionSettings.load()
+
+        if settings.followBrowserMute, let microphone, let muted = snapshot.muted {
+            microphone.isPaused = muted
+            isMicrophonePaused = muted
+        }
+        if let session {
+            Task { try? await session.record.update(title: snapshot.title, participants: snapshot.participants) }
+        }
+        guard settings.autoStartBrowserMeetings else { return }
+        if snapshot.inCall, !wasInCall, state == .idle {
+            Task { await start() }
+        } else if !snapshot.inCall, wasInCall, state == .running {
+            Task { await stop() }
+        }
     }
 
     var isRunning: Bool { state == .running }
@@ -130,8 +163,17 @@ final class AppModel {
             guard await AVCaptureDevice.requestAccess(for: .audio) else { throw AppError.microphoneAccessDenied }
             let microphone = MicrophoneSource()
             channels.append(try await makeChannel(microphone, languageCode: settings.myLanguage))
+            if settings.followBrowserMute, let muted = bridge.isMuted {
+                microphone.isPaused = muted
+                isMicrophonePaused = muted
+            }
             self.microphone = microphone
         }
-        return CaptionSession(channels: channels, targetLanguage: target, record: try MeetingRecord())
+        let record = try MeetingRecord()
+        try await record.update(title: bridge.title, participants: bridge.participants)
+        let bridge = self.bridge
+        return CaptionSession(channels: channels, targetLanguage: target, record: record) { channel, date in
+            bridge.speakerName(for: channel, at: date)
+        }
     }
 }

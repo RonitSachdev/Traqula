@@ -10,7 +10,7 @@ struct TraqulaApp: App {
             MenuBarView(model: model)
         }
         Settings {
-            SettingsView()
+            SettingsView(bridge: model.bridge)
         }
     }
 }

@@ -11,9 +11,11 @@ struct MeetingSummarizerTests {
                       sourceLanguage: "ja", targetLanguage: "en", sourceText: "はい", translatedText: "Yes"),
             Utterance(id: UUID(), channel: .microphone, startedAt: start.addingTimeInterval(3), duration: 1,
                       sourceLanguage: "en", targetLanguage: nil, sourceText: "Hello", translatedText: nil),
+            Utterance(id: UUID(), channel: .system, startedAt: start.addingTimeInterval(9), duration: 1,
+                      sourceLanguage: "ja", targetLanguage: "en", sourceText: "どうぞ", translatedText: "Go ahead", speaker: "Tanaka"),
         ], relativeTo: start)
 
-        #expect(lines == ["[01:05] Them: Yes", "[00:03] Me: Hello"])
+        #expect(lines == ["[01:05] Them: Yes", "[00:03] Me: Hello", "[00:09] Tanaka (Them): Go ahead"])
     }
 
     @Test func chunkKeepsPartsWithinBudgetAndNeverSplitsALine() {

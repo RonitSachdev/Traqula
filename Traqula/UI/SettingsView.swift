@@ -1,8 +1,11 @@
+import AppKit
 import Speech
 import SwiftUI
 import Translation
 
 struct SettingsView: View {
+    let bridge: MeetingBridge
+
     @AppStorage(CaptionSettings.Key.theirLanguage) private var theirLanguage = CaptionSettings.default.theirLanguage
     @AppStorage(CaptionSettings.Key.myLanguage) private var myLanguage = CaptionSettings.default.myLanguage
     @AppStorage(CaptionSettings.Key.targetLanguage) private var targetLanguage = CaptionSettings.default.targetLanguage
@@ -12,6 +15,8 @@ struct SettingsView: View {
     @AppStorage(CaptionSettings.Key.hideFromScreenSharing) private var hideFromScreenSharing = CaptionSettings.default.hideFromScreenSharing
     @AppStorage(CaptionSettings.Key.captionBackgroundColor) private var backgroundHex = CaptionSettings.default.captionBackgroundColor
     @AppStorage(CaptionSettings.Key.captionBackgroundOpacity) private var backgroundOpacity = CaptionSettings.default.captionBackgroundOpacity
+    @AppStorage(CaptionSettings.Key.followBrowserMute) private var followBrowserMute = CaptionSettings.default.followBrowserMute
+    @AppStorage(CaptionSettings.Key.autoStartBrowserMeetings) private var autoStartBrowserMeetings = CaptionSettings.default.autoStartBrowserMeetings
 
     /// Languages the on-device recognizer and translator support, loaded once the window opens.
     @State private var speechLanguages: [String] = []
@@ -52,6 +57,26 @@ struct SettingsView: View {
             }
             Section("Audio") {
                 Toggle("Also caption my microphone", isOn: $captureMicrophone)
+            }
+            Section {
+                LabeledContent("Chrome extension") {
+                    if bridge.isExtensionConnected {
+                        Label(bridge.inCall ? "Connected, in a meeting" : "Connected", systemImage: "checkmark.circle.fill").foregroundStyle(.green)
+                    } else {
+                        Label("Not connected", systemImage: "circle.dashed").foregroundStyle(.secondary)
+                    }
+                }
+                Toggle("Pause my captions when I'm muted in the meeting", isOn: $followBrowserMute)
+                Toggle("Start and stop captions with the meeting", isOn: $autoStartBrowserMeetings)
+                Button("Show Extension Folder") {
+                    if let folder = Bundle.main.resourceURL?.appending(path: "extension") {
+                        NSWorkspace.shared.activateFileViewerSelecting([folder])
+                    }
+                }
+            } header: {
+                Text("Browser meetings")
+            } footer: {
+                Text("Google Meet, Zoom, and Teams in Chrome can tell Traqula who is speaking, whether you are muted, and who is in the call. Install once: open chrome://extensions, turn on Developer mode, press Load unpacked, and choose the extension folder. Names then replace Them and Me in captions and transcripts.")
             }
             Section {
                 if let executable = assistants.executable {

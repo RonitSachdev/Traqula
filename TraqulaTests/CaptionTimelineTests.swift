@@ -61,6 +61,15 @@ struct CaptionTimelineTests {
         #expect(timeline.lines[0].translatedText == "Today")
     }
 
+    @Test func speakerNameSticksToTheLineAndCanArriveLate() {
+        var timeline = CaptionTimeline()
+        _ = timeline.apply(update("こんにちは", final: false), channel: .system, speaker: nil)
+        _ = timeline.apply(update("こんにちは、皆さん", final: false), channel: .system, speaker: "Tanaka")
+        _ = timeline.apply(update("こんにちは、皆さん。", final: true), channel: .system, speaker: nil)
+
+        #expect(timeline.lines.map(\.speaker) == ["Tanaka"])
+    }
+
     @Test func emptyResultIsIgnored() {
         var timeline = CaptionTimeline()
         let id = timeline.apply(update("", final: false), channel: .system)

@@ -169,7 +169,12 @@ struct MeetingTools: Sendable {
         } else {
             length = "in progress"
         }
-        return "started \(started), \(length), \(lineCount) lines"
+        var parts = ["started \(started)", length, "\(lineCount) lines"]
+        if let title = meeting.manifest.title { parts.insert("\"\(title)\"", at: 0) }
+        if let participants = meeting.manifest.participants, !participants.isEmpty {
+            parts.append("with \(participants.joined(separator: ", "))")
+        }
+        return parts.joined(separator: ", ")
     }
 
     private func format(_ lines: [Utterance], relativeTo start: Date, text: TextChoice) -> String {
@@ -181,7 +186,7 @@ struct MeetingTools: Sendable {
             case .original: line.sourceText
             case .both: line.translatedText.map { "\($0)  (\(line.sourceText))" } ?? line.sourceText
             }
-            return "\(stamp) \(line.channel.displayName): \(body)"
+            return "\(stamp) \(line.speakerLabel): \(body)"
         }.joined(separator: "\n")
     }
 

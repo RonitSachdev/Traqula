@@ -26,6 +26,8 @@ xcodebuild -project Traqula.xcodeproj -scheme Traqula -configuration Debug test
   the measurement or reason behind them. Follow that style rather than adding docs elsewhere.
 - **Icons are code.** Edit `Tools/render-icon.swift` and re-run it; do not hand-edit the PNGs.
 - **Keep `project.yml` the source of truth.** The `.xcodeproj` is generated and git-ignored.
+- **Extension adapters are the only place that knows a site's page.** Fixes for a Meet, Zoom, or Teams
+  redesign go in `extension/<site>.js`; `bridge.js` and the app stay site-agnostic.
 
 ## Reporting bugs
 

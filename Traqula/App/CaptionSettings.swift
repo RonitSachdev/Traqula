@@ -15,6 +15,8 @@ struct CaptionSettings: Sendable, Equatable {
         static let hideFromScreenSharing = "hideFromScreenSharing"
         static let captionBackgroundColor = "captionBackgroundColor"
         static let captionBackgroundOpacity = "captionBackgroundOpacity"
+        static let followBrowserMute = "followBrowserMute"
+        static let autoStartBrowserMeetings = "autoStartBrowserMeetings"
     }
 
     /// BCP 47 code of the language remote participants speak (system audio).
@@ -31,6 +33,9 @@ struct CaptionSettings: Sendable, Equatable {
     /// Tint of the caption card as a `#RRGGBB` hex string, and how strongly it is applied over the glass.
     var captionBackgroundColor: String
     var captionBackgroundOpacity: Double
+    /// Browser meetings, reported by the Traqula Bridge extension.
+    var followBrowserMute: Bool
+    var autoStartBrowserMeetings: Bool
 
     static let `default` = CaptionSettings(
         theirLanguage: "ja",
@@ -41,7 +46,9 @@ struct CaptionSettings: Sendable, Equatable {
         captionFontSize: 22,
         hideFromScreenSharing: true,
         captionBackgroundColor: "#000000",
-        captionBackgroundOpacity: 0.55
+        captionBackgroundOpacity: 0.55,
+        followBrowserMute: true,
+        autoStartBrowserMeetings: true
     )
 
     static func registerDefaults(in defaults: UserDefaults = .standard) {
@@ -55,6 +62,8 @@ struct CaptionSettings: Sendable, Equatable {
             Key.hideFromScreenSharing: `default`.hideFromScreenSharing,
             Key.captionBackgroundColor: `default`.captionBackgroundColor,
             Key.captionBackgroundOpacity: `default`.captionBackgroundOpacity,
+            Key.followBrowserMute: `default`.followBrowserMute,
+            Key.autoStartBrowserMeetings: `default`.autoStartBrowserMeetings,
         ])
     }
 
@@ -68,7 +77,9 @@ struct CaptionSettings: Sendable, Equatable {
             captionFontSize: defaults.double(forKey: Key.captionFontSize),
             hideFromScreenSharing: defaults.bool(forKey: Key.hideFromScreenSharing),
             captionBackgroundColor: defaults.string(forKey: Key.captionBackgroundColor) ?? `default`.captionBackgroundColor,
-            captionBackgroundOpacity: defaults.double(forKey: Key.captionBackgroundOpacity)
+            captionBackgroundOpacity: defaults.double(forKey: Key.captionBackgroundOpacity),
+            followBrowserMute: defaults.bool(forKey: Key.followBrowserMute),
+            autoStartBrowserMeetings: defaults.bool(forKey: Key.autoStartBrowserMeetings)
         )
     }
 }

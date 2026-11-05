@@ -32,6 +32,13 @@ public actor MeetingRecord {
         try transcript.write(contentsOf: line)
     }
 
+    /// Records what the meeting page reported. Empty values never erase what is already known.
+    public func update(title: String?, participants: [String]) throws {
+        if let title, !title.isEmpty { manifest.title = title }
+        if !participants.isEmpty { manifest.participants = participants }
+        try Self.write(manifest, to: directory, encoder: encoder)
+    }
+
     public func end(at date: Date = .now) throws {
         manifest.endedAt = date
         try Self.write(manifest, to: directory, encoder: encoder)

@@ -73,7 +73,8 @@ public struct MeetingSummarizer: Sendable {
 
     static let summaryInstructions = """
         You write summaries of meeting transcripts. In the transcript, "Them" is what other participants said \
-        and "Me" is what the user said; names mentioned in a line are people being talked to or about, not the speaker. \
+        and "Me" is what the user said; a line labeled like "Tanaka (Them)" names its speaker, otherwise names mentioned \
+        in a line are people being talked to or about, not the speaker. \
         "Me" lines were captured by the user's own microphone, so they may include side conversations with people \
         in the room while the user was muted; if a "Me" line clearly does not belong to the meeting, leave it out. \
         Write in the same language as the transcript. Be factual and specific; never invent details or names. \
@@ -97,7 +98,7 @@ public struct MeetingSummarizer: Sendable {
         utterances.map { utterance in
             let offset = max(0, Int(utterance.startedAt.timeIntervalSince(start)))
             let stamp = String(format: "[%02d:%02d]", offset / 60, offset % 60)
-            return "\(stamp) \(utterance.channel.displayName): \(utterance.translatedText ?? utterance.sourceText)"
+            return "\(stamp) \(utterance.speakerLabel): \(utterance.translatedText ?? utterance.sourceText)"
         }
     }
 

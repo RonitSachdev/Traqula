@@ -22,15 +22,23 @@ final class CaptionSession {
     let record: MeetingRecord
     private let channels: [Channel]
     private let targetLanguage: Locale.Language
+    /// Who was speaking on a channel at a moment in wall-clock time, when a meeting page reports it.
+    private let speakerName: (AudioChannel, Date) -> String?
     private let startedAt = Date()
     private var channelTasks: [Task<Void, Never>] = []
     /// Translation of in-progress text is debounced per channel; a newer volatile result cancels the older one.
     private var volatileTranslations: [AudioChannel: Task<Void, Never>] = [:]
 
-    init(channels: [Channel], targetLanguage: Locale.Language, record: MeetingRecord) {
+    init(
+        channels: [Channel],
+        targetLanguage: Locale.Language,
+        record: MeetingRecord,
+        speakerName: @escaping (AudioChannel, Date) -> String? = { _, _ in nil }
+    ) {
         self.channels = channels
         self.targetLanguage = targetLanguage
         self.record = record
+        self.speakerName = speakerName
     }
 
     func start() {
@@ -54,7 +62,9 @@ final class CaptionSession {
         do {
             let audio = try channel.source.start()
             for try await update in channel.transcriber.transcribe(audio) {
-                guard let lineID = timeline.apply(update, channel: channel.source.channel) else { continue }
+                let spokenAt = startedAt.addingTimeInterval((update.start + update.end) / 2)
+                let speaker = speakerName(channel.source.channel, spokenAt)
+                guard let lineID = timeline.apply(update, channel: channel.source.channel, speaker: speaker) else { continue }
                 handle(update, lineID: lineID, in: channel)
             }
         } catch is CancellationError {
@@ -98,7 +108,8 @@ final class CaptionSession {
             sourceLanguage: channel.transcriber.locale.language.minimalIdentifier,
             targetLanguage: channel.translator == nil ? nil : targetLanguage.minimalIdentifier,
             sourceText: update.text,
-            translatedText: translation
+            translatedText: translation,
+            speaker: timeline.lines.first { $0.channel == channel.source.channel && $0.end == update.end && $0.sourceText == update.text }?.speaker
         )
         Task {
             do {

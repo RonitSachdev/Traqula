@@ -48,8 +48,9 @@ private struct CaptionLineView: View {
 
     var body: some View {
         HStack(alignment: .firstTextBaseline, spacing: 12) {
-            Text(line.channel.displayName)
+            Text(line.speaker ?? line.channel.displayName)
                 .font(.system(.caption, design: .rounded, weight: .bold))
+                .lineLimit(1)
                 .padding(.horizontal, 8)
                 .padding(.vertical, 3)
                 .background(badgeColor, in: RoundedRectangle(cornerRadius: 7, style: .continuous))

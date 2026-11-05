@@ -11,7 +11,7 @@ struct CaptionTimeline: Sendable, Equatable {
     ///
     /// A volatile result replaces the channel's in-progress line (creating one if needed); a final result
     /// commits that line, so the next volatile result starts a new one.
-    mutating func apply(_ update: TranscriptionUpdate, channel: AudioChannel) -> CaptionLine.ID? {
+    mutating func apply(_ update: TranscriptionUpdate, channel: AudioChannel, speaker: String? = nil) -> CaptionLine.ID? {
         guard !update.text.isEmpty else { return nil }
 
         if let index = lines.lastIndex(where: { $0.channel == channel && !$0.isFinal }) {
@@ -19,6 +19,7 @@ struct CaptionTimeline: Sendable, Equatable {
             lines[index].isFinal = update.isFinal
             lines[index].start = update.start
             lines[index].end = update.end
+            if let speaker { lines[index].speaker = speaker }
             return lines[index].id
         }
 
@@ -27,6 +28,7 @@ struct CaptionTimeline: Sendable, Equatable {
             channel: channel,
             sourceText: update.text,
             translatedText: nil,
+            speaker: speaker,
             isFinal: update.isFinal,
             start: update.start,
             end: update.end

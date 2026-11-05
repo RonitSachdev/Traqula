@@ -24,10 +24,13 @@ public struct Utterance: Codable, Sendable, Equatable {
     public let targetLanguage: String?
     public let sourceText: String
     public let translatedText: String?
+    /// Display name of who spoke, when a meeting page reported it; nil means only the channel is known.
+    public let speaker: String?
 
     public init(
         id: UUID, channel: AudioChannel, startedAt: Date, duration: TimeInterval,
-        sourceLanguage: String, targetLanguage: String?, sourceText: String, translatedText: String?
+        sourceLanguage: String, targetLanguage: String?, sourceText: String, translatedText: String?,
+        speaker: String? = nil
     ) {
         self.id = id
         self.channel = channel
@@ -37,6 +40,12 @@ public struct Utterance: Codable, Sendable, Equatable {
         self.targetLanguage = targetLanguage
         self.sourceText = sourceText
         self.translatedText = translatedText
+        self.speaker = speaker
+    }
+
+    /// "Tanaka (Them)" when the speaker is known, otherwise just the channel.
+    public var speakerLabel: String {
+        speaker.map { "\($0) (\(channel.displayName))" } ?? channel.displayName
     }
 }
 
@@ -44,10 +53,15 @@ public struct MeetingManifest: Codable, Sendable, Equatable {
     public let id: UUID
     public let startedAt: Date
     public var endedAt: Date?
+    /// Meeting name and attendee names, when a browser meeting page reported them.
+    public var title: String?
+    public var participants: [String]?
 
-    public init(id: UUID, startedAt: Date, endedAt: Date?) {
+    public init(id: UUID, startedAt: Date, endedAt: Date?, title: String? = nil, participants: [String]? = nil) {
         self.id = id
         self.startedAt = startedAt
         self.endedAt = endedAt
+        self.title = title
+        self.participants = participants
     }
 }

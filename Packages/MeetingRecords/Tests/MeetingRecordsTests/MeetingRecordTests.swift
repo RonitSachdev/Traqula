@@ -21,11 +21,15 @@ struct MeetingRecordTests {
         )
         try await record.append(first)
         try await record.append(second)
+        try await record.update(title: "Release planning", participants: ["Tanaka", "Ronit"])
+        try await record.update(title: nil, participants: [])
         try await record.end(at: startedAt.addingTimeInterval(60))
 
         let manifest = try MeetingRecord.manifest(in: record.directory)
         #expect(manifest.startedAt == startedAt)
         #expect(manifest.endedAt == startedAt.addingTimeInterval(60))
+        #expect(manifest.title == "Release planning")
+        #expect(manifest.participants == ["Tanaka", "Ronit"])
         #expect(try MeetingRecord.utterances(in: record.directory) == [first, second])
         #expect(record.directory.path.hasPrefix(root.path))
     }
