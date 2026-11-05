@@ -51,7 +51,7 @@ final class MeetingBridgeServer {
 
     private func accept(_ connection: NWConnection) {
         connections[ObjectIdentifier(connection)] = connection
-        Self.logger.info("Extension connected")
+        Self.logger.notice("Extension connected")
         connection.stateUpdateHandler = { state in
             switch state {
             case .failed, .cancelled:
@@ -70,7 +70,7 @@ final class MeetingBridgeServer {
             Task { @MainActor [weak self] in
                 guard let self else { return }
                 if let data, let snapshot = try? JSONDecoder().decode(BridgeSnapshot.self, from: data) {
-                    Self.logger.info("Snapshot from \(snapshot.site, privacy: .public): inCall=\(snapshot.inCall) muted=\(String(describing: snapshot.muted), privacy: .public) speaker=\(snapshot.speaker ?? "-", privacy: .public) participants=\(snapshot.participants.count)")
+                    Self.logger.notice("Snapshot from \(snapshot.site, privacy: .public): inCall=\(snapshot.inCall) muted=\(String(describing: snapshot.muted), privacy: .public) speaker=\(snapshot.speaker ?? "-", privacy: .public) participants=\(snapshot.participants.count)")
                     onSnapshot(snapshot)
                 }
                 if error == nil {

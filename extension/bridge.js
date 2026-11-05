@@ -42,6 +42,12 @@ const TraqulaBridge = {
   text(element) {
     return element ? element.textContent.replace(/\s+/g, " ").trim() : "";
   },
+  // True when the element takes up space and is not hidden by CSS.
+  isVisible(element) {
+    if (!element || element.offsetWidth === 0 || element.offsetHeight === 0) return false;
+    const style = getComputedStyle(element);
+    return style.visibility !== "hidden" && style.opacity !== "0";
+  },
   // True when something inside the element is animating, which is how speaking indicators tend to be drawn.
   isAnimating(element) {
     return element.getAnimations({ subtree: true }).some((a) => a.playState === "running");
