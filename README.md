@@ -117,8 +117,8 @@ Tools/render-icon.swift  Draws the mascot (bubble, pill eyes, one fang) and rend
 ## Roadmap
 
 1. Meeting summaries generated from `transcript.jsonl`.
-2. An MCP server over the meeting records so meeting content can be queried from Claude.
-3. SyncPebble integration.
+2. A bundled MCP server over the meeting records, so meeting content can be queried from Claude or any
+   other MCP client.
 
 ## Contributing
 
