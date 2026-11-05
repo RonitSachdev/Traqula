@@ -111,6 +111,7 @@ struct SettingsView: View {
                     backgroundOpacity = CaptionSettings.default.captionBackgroundOpacity
                     captionFontSize = CaptionSettings.default.captionFontSize
                 }
+                CaptionPreview()
             }
             Text("Language, audio, and screen-sharing changes apply the next time captions start. Caption look changes apply immediately.")
                 .font(.footnote)
@@ -148,6 +149,29 @@ struct SettingsView: View {
                 Text(languageName(code)).tag(code)
             }
         }
+    }
+}
+
+/// The caption card over a stand-in for a meeting window, so look changes can be judged before a call.
+private struct CaptionPreview: View {
+    private static let lines = [
+        CaptionLine(id: UUID(), channel: .system, sourceText: "来週のリリース計画について話し合います。",
+                    translatedText: "Let's talk about next week's release plan.", isFinal: true, start: 0, end: 3),
+        CaptionLine(id: UUID(), channel: .microphone, sourceText: "はい、まずテストの進捗から。",
+                    translatedText: "Sure, starting with the test progress.", isFinal: true, start: 4, end: 6),
+        CaptionLine(id: UUID(), channel: .system, sourceText: "昨日のバグ修正はどう", translatedText: nil, isFinal: false, start: 7, end: 8),
+    ]
+
+    var body: some View {
+        ZStack {
+            LinearGradient(colors: [Color(red: 0.55, green: 0.65, blue: 0.80), Color(red: 0.25, green: 0.30, blue: 0.42)],
+                           startPoint: .top, endPoint: .bottom)
+            CaptionCard(lines: Self.lines)
+                .padding(14)
+        }
+        .frame(height: 190)
+        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+        .listRowInsets(EdgeInsets())
     }
 }
 

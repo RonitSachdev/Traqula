@@ -4,6 +4,7 @@ import MeetingRecords
 
 struct MenuBarView: View {
     let model: AppModel
+    @Environment(\.openSettings) private var openSettings
 
     var body: some View {
         Button(model.isRunning ? "Stop Captions" : "Start Captions") {
@@ -28,8 +29,10 @@ struct MenuBarView: View {
         Button("Show Meetings Folder") {
             NSWorkspace.shared.open(MeetingRecord.defaultRoot)
         }
-        SettingsLink {
-            Text("Settings…")
+        Button("Settings…") {
+            // A menu bar app is not the active app when its menu is used, so the window would open behind others.
+            NSApp.activate(ignoringOtherApps: true)
+            openSettings()
         }
 
         Divider()

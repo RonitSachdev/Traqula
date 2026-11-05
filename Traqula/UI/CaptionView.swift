@@ -2,11 +2,18 @@ import AppKit
 import SwiftUI
 import MeetingRecords
 
-/// Every caption line of the session on a soft rounded glass card. The list stays pinned to the newest
-/// line, and scrolling up to re-read earlier lines is allowed.
+/// Every caption line of the session, pinned to the newest line, with scrolling back allowed.
 struct CaptionView: View {
     let session: CaptionSession
-    let settings: CaptionSettings
+
+    var body: some View {
+        CaptionCard(lines: session.timeline.lines)
+    }
+}
+
+/// The soft rounded glass card that shows caption lines. Used by the floating window and by the preview in Settings.
+struct CaptionCard: View {
+    let lines: [CaptionLine]
 
     // Appearance is read live so changes in Settings show on the card immediately.
     @AppStorage(CaptionSettings.Key.captionFontSize) private var fontSize = CaptionSettings.default.captionFontSize
@@ -17,7 +24,7 @@ struct CaptionView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 12) {
-                ForEach(session.timeline.lines) { line in
+                ForEach(lines) { line in
                     CaptionLineView(line: line, fontSize: fontSize, showOriginalText: showOriginalText)
                 }
             }

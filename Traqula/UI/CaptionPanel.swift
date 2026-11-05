@@ -33,7 +33,7 @@ final class CaptionPanelController {
     private let panel: CaptionPanel
 
     init(session: CaptionSession, settings: CaptionSettings) {
-        let content = NSHostingView(rootView: CaptionView(session: session, settings: settings))
+        let content = NSHostingView(rootView: CaptionView(session: session))
         panel = CaptionPanel(contentView: content, hiddenFromScreenSharing: settings.hideFromScreenSharing)
     }
 
