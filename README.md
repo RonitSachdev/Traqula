@@ -1,13 +1,34 @@
-# Traqula
+<p align="center">
+  <img src="docs/images/logo.png" width="160" alt="Traqula logo">
+</p>
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+<h1 align="center">Traqula</h1>
 
-Live captions for meetings on your Mac, translated on the fly. Traqula listens to what your Mac plays
-(Google Meet, Zoom, anything) and to your microphone, recognizes speech on-device, translates it on-device,
-and shows the result in a floating caption card. Every finalized line is written to a plain-file meeting
-record so meeting summaries and an MCP server can be built on top later.
+<p align="center">
+  Live captions for meetings on your Mac, translated on-device.
+</p>
+
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT"></a>
+  <a href="https://github.com/RonitSachdev/Traqula/releases/latest"><img src="https://img.shields.io/github/v/release/RonitSachdev/Traqula?label=download" alt="Latest release"></a>
+</p>
+
+<p align="center">
+  <img src="docs/images/caption-card.png" width="760" alt="Traqula caption card showing Japanese speech captioned in English, with Them and Me badges">
+</p>
+
+Traqula listens to what your Mac plays (Google Meet, Zoom, anything) and to your microphone, recognizes
+speech on-device, translates it on-device, and shows the result in a floating caption card. Every
+finalized line is written to a plain-file meeting record so meeting summaries and an MCP server can be
+built on top later.
 
 Nothing leaves the Mac: speech recognition and translation both use Apple's on-device models.
+
+## Download
+
+Grab `Traqula-x.y.z.zip` from the [latest release](https://github.com/RonitSachdev/Traqula/releases/latest),
+unzip, and move Traqula.app to Applications. The build is not notarized yet, so open it the first time
+with right-click → Open.
 
 ## Requirements
 

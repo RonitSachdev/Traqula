@@ -168,4 +168,10 @@ try writeJSON([
 ], to: imageSet.appending(path: "Contents.json"))
 
 try writeJSON(["info": ["author": "xcode", "version": 1]], to: assets.appending(path: "Contents.json"))
+
+// MARK: - README logo
+
+let docsImages = assets.deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent().appending(path: "docs/images")
+try FileManager.default.createDirectory(at: docsImages, withIntermediateDirectories: true)
+writePNG(drawAppIcon(size: 512), to: docsImages.appending(path: "logo.png"))
 print("Rendered icons into \(assets.path)")
