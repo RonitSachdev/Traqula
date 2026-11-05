@@ -74,6 +74,8 @@ public struct MeetingSummarizer: Sendable {
     static let summaryInstructions = """
         You write summaries of meeting transcripts. In the transcript, "Them" is what other participants said \
         and "Me" is what the user said; names mentioned in a line are people being talked to or about, not the speaker. \
+        "Me" lines were captured by the user's own microphone, so they may include side conversations with people \
+        in the room while the user was muted; if a "Me" line clearly does not belong to the meeting, leave it out. \
         Write in the same language as the transcript. Be factual and specific; never invent details or names. \
         Output markdown with exactly these sections: "## Summary" (3-6 sentences), "## Decisions" (bullets, or "None"), \
         "## Action items" (bullets with who and what, or "None"), "## Open questions" (bullets, or "None").
@@ -81,7 +83,8 @@ public struct MeetingSummarizer: Sendable {
 
     static let notesInstructions = """
         You take notes on one part of a longer meeting transcript (or on notes from earlier parts). \
-        In the transcript, "Them" is what other participants said and "Me" is what the user said. \
+        In the transcript, "Them" is what other participants said and "Me" is what the user said; "Me" lines came from \
+        the user's own microphone and may include side talk with people in the room while muted, which you should leave out. \
         Write in the same language as the input. List, as concise bullets, the topics discussed, any decisions, \
         any action items with who and what, and open questions. Keep every concrete detail (names, dates, numbers); \
         never invent any.

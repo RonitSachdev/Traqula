@@ -18,7 +18,7 @@ let tools = MeetingTools(library: MeetingLibrary(root: meetingsRoot))
 let server = Server(
     name: "traqula",
     version: "0.2.0",
-    instructions: "Reads meeting transcripts captioned by Traqula on this Mac. Meetings have two speakers: 'Them' (remote participants) and 'Me' (the user). Start with list_meetings or live_meeting, then get_transcript or meeting_summary.",
+    instructions: "Reads meeting transcripts captioned by Traqula on this Mac. Meetings have two speakers: 'Them' (remote participants) and 'Me' (the user's own microphone, which may also catch side talk in the room while the user was muted). Start with list_meetings or live_meeting, then get_transcript or meeting_summary.",
     capabilities: .init(tools: .init(listChanged: false))
 )
 
