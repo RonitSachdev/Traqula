@@ -21,6 +21,8 @@ struct CaptionCard: View {
     @AppStorage(CaptionSettings.Key.captionBackgroundColor) private var backgroundHex = CaptionSettings.default.captionBackgroundColor
     @AppStorage(CaptionSettings.Key.captionBackgroundOpacity) private var backgroundOpacity = CaptionSettings.default.captionBackgroundOpacity
 
+    private let shape = RoundedRectangle(cornerRadius: 24, style: .continuous)
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 12) {
@@ -34,7 +36,10 @@ struct CaptionCard: View {
         }
         .defaultScrollAnchor(.bottom)
         .scrollIndicators(.hidden)
-        .glassEffect(.regular.tint(Color(hex: backgroundHex).opacity(backgroundOpacity)), in: .rect(cornerRadius: 24, style: .continuous))
+        // The chosen colour is a real fill at the chosen strength over the glass: a tint alone barely
+        // shows through the material, so strength 1 is a solid colour and 0 is plain glass.
+        .background(shape.fill(Color(hex: backgroundHex).opacity(backgroundOpacity)))
+        .glassEffect(.regular, in: shape)
         .padding(1)
     }
 }
