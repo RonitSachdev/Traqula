@@ -19,14 +19,19 @@ extension AudioObjectID {
         try read(kAudioDevicePropertyDeviceUID, initial: "" as CFString) as String
     }
 
-    func readTapStreamFormat() throws -> AudioStreamBasicDescription {
-        try read(kAudioTapPropertyFormat, initial: AudioStreamBasicDescription())
+    /// The format a device's input I/O callback delivers.
+    func readInputStreamFormat() throws -> AudioStreamBasicDescription {
+        try read(kAudioDevicePropertyStreamFormat, scope: kAudioObjectPropertyScopeInput, initial: AudioStreamBasicDescription())
     }
 
-    private func read<Value>(_ selector: AudioObjectPropertySelector, initial: Value) throws -> Value {
+    private func read<Value>(
+        _ selector: AudioObjectPropertySelector,
+        scope: AudioObjectPropertyScope = kAudioObjectPropertyScopeGlobal,
+        initial: Value
+    ) throws -> Value {
         var address = AudioObjectPropertyAddress(
             mSelector: selector,
-            mScope: kAudioObjectPropertyScopeGlobal,
+            mScope: scope,
             mElement: kAudioObjectPropertyElementMain
         )
         var size = UInt32(MemoryLayout<Value>.size)
