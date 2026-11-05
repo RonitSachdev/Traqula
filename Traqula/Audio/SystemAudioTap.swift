@@ -40,19 +40,20 @@ final class SystemAudioTap: AudioSource {
         ]
         try check(AudioHardwareCreateAggregateDevice(aggregate as CFDictionary, &aggregateID), "create the aggregate device")
 
-        // The I/O callback delivers the aggregate's input stream, not the tap's advertised format: the two
-        // differ when the output path changes under it (for example while the microphone runs with voice
-        // processing on), so the format is read from the aggregate and re-checked against each buffer list.
-        var streamDescription = try aggregateID.readInputStreamFormat()
-        guard let nominal = AVAudioFormat(streamDescription: &streamDescription) else {
+        // The callback delivers the aggregate's input stream, interleaved or not depending on the output
+        // path (it changes under the microphone's voice processing, for example), so the buffers are
+        // de-interleaved into the standard layout the recognizer and the microphone source already use.
+        let streamDescription = try aggregateID.readInputStreamFormat()
+        let sampleRate = streamDescription.mSampleRate
+        guard sampleRate > 0, streamDescription.mFormatID == kAudioFormatLinearPCM,
+              streamDescription.mFormatFlags & kAudioFormatFlagIsFloat != 0, streamDescription.mBitsPerChannel == 32 else {
             throw CoreAudioError(operation: "interpret the tap's audio format", status: kAudioFormatUnsupportedDataFormatError)
         }
-        let formats = DeliveredFormat(nominal: nominal)
 
         let (stream, continuation) = AsyncStream<AVAudioPCMBuffer>.makeStream()
         self.continuation = continuation
         let status = AudioDeviceCreateIOProcIDWithBlock(&ioProcID, aggregateID, queue) { _, input, _, _, _ in
-            if let buffer = AVAudioPCMBuffer(copying: input, format: formats.format(for: input)) {
+            if let buffer = AVAudioPCMBuffer(deinterleaving: input, sampleRate: sampleRate) {
                 continuation.yield(buffer)
             }
         }
@@ -80,32 +81,6 @@ final class SystemAudioTap: AudioSource {
     }
 
     deinit { stop() }
-
-    /// The format of the buffers actually delivered, rebuilt from the buffer list when its channel layout
-    /// stops matching the nominal format. Only touched on the tap's I/O queue.
-    private final class DeliveredFormat: @unchecked Sendable {
-        private var format: AVAudioFormat
-
-        init(nominal: AVAudioFormat) {
-            format = nominal
-        }
-
-        func format(for bufferList: UnsafePointer<AudioBufferList>) -> AVAudioFormat {
-            let buffers = UnsafeMutableAudioBufferListPointer(UnsafeMutablePointer(mutating: bufferList))
-            let channels = buffers.reduce(0) { $0 + $1.mNumberChannels }
-            let interleaved = buffers.count == 1 && channels > 1
-            if channels == format.channelCount, interleaved == format.isInterleaved {
-                return format
-            }
-            if let rebuilt = AVAudioFormat(
-                commonFormat: .pcmFormatFloat32, sampleRate: format.sampleRate,
-                channels: AVAudioChannelCount(channels), interleaved: interleaved
-            ) {
-                format = rebuilt
-            }
-            return format
-        }
-    }
 
     private func check(_ status: OSStatus, _ operation: String) throws {
         guard status == noErr else {

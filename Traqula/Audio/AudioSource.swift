@@ -12,17 +12,36 @@ protocol AudioSource: AnyObject {
 }
 
 extension AVAudioPCMBuffer {
-    /// Copies the audio out of a buffer list that is only valid for the duration of an audio callback.
-    convenience init?(copying bufferList: UnsafePointer<AudioBufferList>, format: AVAudioFormat) {
-        guard let view = AVAudioPCMBuffer(pcmFormat: format, bufferListNoCopy: bufferList, deallocator: nil) else {
+    /// Copies Float32 audio out of a buffer list that is only valid for the duration of an audio callback
+    /// into a standard (non-interleaved) buffer, de-interleaving if the callback delivered interleaved
+    /// channels. Every source then hands the recognizer the same layout, whichever one Core Audio picked.
+    convenience init?(deinterleaving bufferList: UnsafePointer<AudioBufferList>, sampleRate: Double) {
+        let buffers = UnsafeMutableAudioBufferListPointer(UnsafeMutablePointer(mutating: bufferList))
+        let channels = buffers.reduce(0) { $0 + Int($1.mNumberChannels) }
+        guard channels > 0, let first = buffers.first, first.mNumberChannels > 0,
+              let format = AVAudioFormat(standardFormatWithSampleRate: sampleRate, channels: AVAudioChannelCount(channels)) else {
             return nil
         }
-        self.init(pcmFormat: format, frameCapacity: max(view.frameLength, 1))
-        frameLength = view.frameLength
-        let source = UnsafeMutableAudioBufferListPointer(view.mutableAudioBufferList)
-        let destination = UnsafeMutableAudioBufferListPointer(mutableAudioBufferList)
-        for (from, to) in zip(source, destination) {
-            memcpy(to.mData, from.mData, Int(min(from.mDataByteSize, to.mDataByteSize)))
+        let frames = Int(first.mDataByteSize) / (Int(first.mNumberChannels) * MemoryLayout<Float>.size)
+        self.init(pcmFormat: format, frameCapacity: AVAudioFrameCount(max(frames, 1)))
+        frameLength = AVAudioFrameCount(frames)
+        guard let target = floatChannelData else { return nil }
+
+        var channel = 0
+        for buffer in buffers {
+            guard let data = buffer.mData?.assumingMemoryBound(to: Float.self) else { return nil }
+            let stride = Int(buffer.mNumberChannels)
+            for offset in 0..<stride {
+                let destination = target[channel + offset]
+                if stride == 1 {
+                    destination.update(from: data, count: frames)
+                } else {
+                    for frame in 0..<frames {
+                        destination[frame] = data[frame * stride + offset]
+                    }
+                }
+            }
+            channel += stride
         }
     }
 }
