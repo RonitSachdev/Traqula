@@ -11,6 +11,11 @@ struct MenuBarView: View {
         }
         .disabled(model.state == .starting || model.state == .stopping)
 
+        if model.isCapturingMicrophone {
+            Button(model.isMicrophonePaused ? "Resume My Mic Captions" : "Pause My Mic Captions") {
+                model.toggleMicrophonePause()
+            }
+        }
         if model.state == .starting {
             Text("Preparing speech and translation models…")
         }

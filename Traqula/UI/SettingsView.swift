@@ -10,6 +10,8 @@ struct SettingsView: View {
     @AppStorage(CaptionSettings.Key.showOriginalText) private var showOriginalText = CaptionSettings.default.showOriginalText
     @AppStorage(CaptionSettings.Key.captionFontSize) private var captionFontSize = CaptionSettings.default.captionFontSize
     @AppStorage(CaptionSettings.Key.hideFromScreenSharing) private var hideFromScreenSharing = CaptionSettings.default.hideFromScreenSharing
+    @AppStorage(CaptionSettings.Key.captionBackgroundColor) private var backgroundHex = CaptionSettings.default.captionBackgroundColor
+    @AppStorage(CaptionSettings.Key.captionBackgroundOpacity) private var backgroundOpacity = CaptionSettings.default.captionBackgroundOpacity
 
     /// Languages the on-device recognizer and translator support, loaded once the window opens.
     @State private var speechLanguages: [String] = []
@@ -94,8 +96,23 @@ struct SettingsView: View {
                     }
                     .frame(width: 180)
                 }
+                ColorPicker("Background color", selection: Binding(
+                    get: { Color(hex: backgroundHex) },
+                    set: { backgroundHex = $0.hexString }
+                ), supportsOpacity: false)
+                LabeledContent("Background strength") {
+                    Slider(value: $backgroundOpacity, in: 0...1) {
+                        Text("Background strength")
+                    }
+                    .frame(width: 180)
+                }
+                Button("Reset look") {
+                    backgroundHex = CaptionSettings.default.captionBackgroundColor
+                    backgroundOpacity = CaptionSettings.default.captionBackgroundOpacity
+                    captionFontSize = CaptionSettings.default.captionFontSize
+                }
             }
-            Text("Changes apply the next time captions start.")
+            Text("Language, audio, and screen-sharing changes apply the next time captions start. Caption look changes apply immediately.")
                 .font(.footnote)
                 .foregroundStyle(.secondary)
         }

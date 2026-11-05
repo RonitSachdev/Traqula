@@ -34,14 +34,24 @@ final class AppModel {
     private(set) var session: CaptionSession?
     /// The most recent problem worth showing in the menu, cleared when captions start.
     private(set) var statusMessage: String?
+    /// True while the microphone channel is feeding silence, e.g. because the user is muted in the meeting.
+    private(set) var isMicrophonePaused = false
 
     private var panel: CaptionPanelController?
+    private var microphone: MicrophoneSource?
 
     init() {
         CaptionSettings.registerDefaults()
     }
 
     var isRunning: Bool { state == .running }
+    var isCapturingMicrophone: Bool { isRunning && microphone != nil }
+
+    func toggleMicrophonePause() {
+        guard let microphone else { return }
+        microphone.isPaused.toggle()
+        isMicrophonePaused = microphone.isPaused
+    }
 
     func toggleCaptions() {
         Task {
@@ -79,6 +89,8 @@ final class AppModel {
         panel?.close()
         panel = nil
         self.session = nil
+        microphone = nil
+        isMicrophonePaused = false
         state = .idle
     }
 
@@ -116,7 +128,9 @@ final class AppModel {
         var channels = [try await makeChannel(SystemAudioTap(), languageCode: settings.theirLanguage)]
         if settings.captureMicrophone {
             guard await AVCaptureDevice.requestAccess(for: .audio) else { throw AppError.microphoneAccessDenied }
-            channels.append(try await makeChannel(MicrophoneSource(), languageCode: settings.myLanguage))
+            let microphone = MicrophoneSource()
+            channels.append(try await makeChannel(microphone, languageCode: settings.myLanguage))
+            self.microphone = microphone
         }
         return CaptionSession(channels: channels, targetLanguage: target, record: try MeetingRecord())
     }

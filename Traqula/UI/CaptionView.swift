@@ -1,3 +1,4 @@
+import AppKit
 import SwiftUI
 import MeetingRecords
 
@@ -7,11 +8,17 @@ struct CaptionView: View {
     let session: CaptionSession
     let settings: CaptionSettings
 
+    // Appearance is read live so changes in Settings show on the card immediately.
+    @AppStorage(CaptionSettings.Key.captionFontSize) private var fontSize = CaptionSettings.default.captionFontSize
+    @AppStorage(CaptionSettings.Key.showOriginalText) private var showOriginalText = CaptionSettings.default.showOriginalText
+    @AppStorage(CaptionSettings.Key.captionBackgroundColor) private var backgroundHex = CaptionSettings.default.captionBackgroundColor
+    @AppStorage(CaptionSettings.Key.captionBackgroundOpacity) private var backgroundOpacity = CaptionSettings.default.captionBackgroundOpacity
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 12) {
                 ForEach(session.timeline.lines) { line in
-                    CaptionLineView(line: line, settings: settings)
+                    CaptionLineView(line: line, fontSize: fontSize, showOriginalText: showOriginalText)
                 }
             }
             .padding(.horizontal, 22)
@@ -20,14 +27,17 @@ struct CaptionView: View {
         }
         .defaultScrollAnchor(.bottom)
         .scrollIndicators(.hidden)
-        .glassEffect(.regular.tint(.black.opacity(0.55)), in: .rect(cornerRadius: 24, style: .continuous))
+        .glassEffect(.regular.tint(Color(hex: backgroundHex).opacity(backgroundOpacity)), in: .rect(cornerRadius: 24, style: .continuous))
         .padding(1)
     }
 }
 
 private struct CaptionLineView: View {
     let line: CaptionLine
-    let settings: CaptionSettings
+    let fontSize: Double
+    let showOriginalText: Bool
+    @AppStorage(CaptionSettings.Key.captionBackgroundColor) private var backgroundHex = CaptionSettings.default.captionBackgroundColor
+    @AppStorage(CaptionSettings.Key.captionBackgroundOpacity) private var backgroundOpacity = CaptionSettings.default.captionBackgroundOpacity
 
     var body: some View {
         HStack(alignment: .firstTextBaseline, spacing: 12) {
@@ -39,18 +49,25 @@ private struct CaptionLineView: View {
 
             VStack(alignment: .leading, spacing: 3) {
                 Text(line.translatedText ?? line.sourceText)
-                    .font(.system(size: settings.captionFontSize, weight: .semibold, design: .rounded))
-                if settings.showOriginalText, line.translatedText != nil {
+                    .font(.system(size: fontSize, weight: .semibold, design: .rounded))
+                if showOriginalText, line.translatedText != nil {
                     Text(line.sourceText)
-                        .font(.system(size: settings.captionFontSize * 0.68, weight: .regular, design: .rounded))
-                        .foregroundStyle(.white.opacity(0.6))
+                        .font(.system(size: fontSize * 0.68, weight: .regular, design: .rounded))
+                        .foregroundStyle(textColor.opacity(0.6))
                 }
             }
             .fixedSize(horizontal: false, vertical: true)
         }
-        .foregroundStyle(.white)
+        .foregroundStyle(textColor)
         .opacity(line.isFinal ? 1 : 0.7)
         .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    /// White text on dark tints, near-black on light ones.
+    private var textColor: Color {
+        let color = NSColor(Color(hex: backgroundHex)).usingColorSpace(.sRGB) ?? .black
+        let luminance = 0.2126 * color.redComponent + 0.7152 * color.greenComponent + 0.0722 * color.blueComponent
+        return luminance > 0.6 && backgroundOpacity > 0.5 ? Color(white: 0.1) : .white
     }
 
     private var badgeColor: Color {

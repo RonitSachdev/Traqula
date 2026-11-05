@@ -55,8 +55,11 @@ app's permissions across rebuilds; with ad-hoc signing every new build is a new 
    why it lives in Settings rather than happening automatically. Models are shared with every app.
 2. Press **Start Captions**. macOS asks for **System Audio Recording** and **Microphone** access.
    If you denied one, re-enable it under System Settings › Privacy & Security.
-3. Captions appear in a floating card at the bottom of the screen. Drag it anywhere; it stays above
-   full-screen apps and never steals keyboard focus.
+3. Captions appear in a floating card at the bottom of the screen. Drag it anywhere, resize it from the
+   edges, and pick its colour and strength in Settings. It stays above full-screen apps and never steals
+   keyboard focus.
+4. Muted in the meeting? Use **Pause My Mic Captions** in the menu so nothing is captioned as "Me" until
+   you resume.
 
 ## Ask your AI about a meeting
 
@@ -95,8 +98,9 @@ MicrophoneSource┘   (per channel)       │          └─ Translator (per fi
 
 - **Audio** (`Traqula/Audio`): `SystemAudioTap` is a Core Audio process tap wrapped in a private
   aggregate device, so there is no virtual audio driver and no screen-recording permission.
-  `MicrophoneSource` is an `AVAudioEngine` input tap. Both implement `AudioSource` and hand over
-  owned buffers.
+  `MicrophoneSource` is an `AVAudioEngine` input tap with voice processing on, so the system's echo
+  canceller removes speaker playback and remote voices do not come back as "Me". Both implement
+  `AudioSource` and hand over owned buffers.
 - **Speech** (`Traqula/Speech`): `LiveTranscriber` runs one `SpeechAnalyzer` per channel with the
   `DictationTranscriber` module and forces finalization at sentence punctuation or after 2.5 s of
   unchanged text. See "Why the dictation module" below.
