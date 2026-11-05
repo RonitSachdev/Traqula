@@ -1,0 +1,51 @@
+# Xcode project definition. Regenerate the .xcodeproj with `xcodegen generate` after editing.
+name: Traqula
+options:
+  bundleIdPrefix: dev.ronit
+  deploymentTarget:
+    macOS: "26.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    # Sign to run locally. Pick your team in Xcode > Signing to keep TCC permissions across rebuilds.
+    CODE_SIGN_STYLE: Automatic
+    CODE_SIGN_IDENTITY: "-"
+    ENABLE_HARDENED_RUNTIME: false
+targets:
+  Traqula:
+    type: application
+    platform: macOS
+    sources:
+      - Traqula
+    info:
+      path: Traqula/Info.plist
+      properties:
+        CFBundleDisplayName: Traqula
+        LSUIElement: true
+        LSMinimumSystemVersion: "26.0"
+        NSAudioCaptureUsageDescription: Traqula listens to the audio your Mac plays so it can caption and translate meetings.
+        NSMicrophoneUsageDescription: Traqula listens to your microphone so your own words appear in the meeting transcript.
+  TraqulaTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - TraqulaTests
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+    dependencies:
+      - target: Traqula
+schemes:
+  Traqula:
+    build:
+      targets:
+        Traqula: all
+        TraqulaTests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - TraqulaTests
