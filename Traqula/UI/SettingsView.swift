@@ -91,20 +91,16 @@ struct SettingsView: View {
                 Toggle("Show the original text under the translation", isOn: $showOriginalText)
                 Toggle("Hide captions from screen sharing and screenshots", isOn: $hideFromScreenSharing)
                 LabeledContent("Text size") {
-                    Slider(value: $captionFontSize, in: 16...40, step: 1) {
-                        Text("Text size")
-                    }
-                    .frame(width: 180)
+                    Slider(value: $captionFontSize, in: 16...40, step: 1)
+                        .frame(width: 180)
                 }
                 ColorPicker("Background color", selection: Binding(
                     get: { Color(hex: backgroundHex) },
                     set: { backgroundHex = $0.hexString }
                 ), supportsOpacity: false)
                 LabeledContent("Background strength") {
-                    Slider(value: $backgroundOpacity, in: 0...1) {
-                        Text("Background strength")
-                    }
-                    .frame(width: 180)
+                    Slider(value: $backgroundOpacity, in: 0...1)
+                        .frame(width: 180)
                 }
                 Button("Reset look") {
                     backgroundHex = CaptionSettings.default.captionBackgroundColor
@@ -112,6 +108,9 @@ struct SettingsView: View {
                     captionFontSize = CaptionSettings.default.captionFontSize
                 }
                 CaptionPreview()
+                Text("The card is translucent, so it takes on some of whatever is behind it. The preview sits over a grey stand-in for a video call; raise the strength for a more solid colour.")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
             }
             Text("Language, audio, and screen-sharing changes apply the next time captions start. Caption look changes apply immediately.")
                 .font(.footnote)
@@ -164,8 +163,7 @@ private struct CaptionPreview: View {
 
     var body: some View {
         ZStack {
-            LinearGradient(colors: [Color(red: 0.55, green: 0.65, blue: 0.80), Color(red: 0.25, green: 0.30, blue: 0.42)],
-                           startPoint: .top, endPoint: .bottom)
+            LinearGradient(colors: [Color(white: 0.62), Color(white: 0.38)], startPoint: .top, endPoint: .bottom)
             CaptionCard(lines: Self.lines)
                 .padding(14)
         }
