@@ -1,6 +1,7 @@
 import Foundation
 import MCP
 import MeetingRecords
+import MeetingSummaries
 
 struct ToolError: LocalizedError {
     let message: String
@@ -10,6 +11,12 @@ struct ToolError: LocalizedError {
 /// The MCP tools Traqula exposes, and how each one renders meeting records as text an assistant can read.
 struct MeetingTools: Sendable {
     let library: MeetingLibrary
+    let summaries: MeetingSummaryService
+
+    init(library: MeetingLibrary) {
+        self.library = library
+        summaries = MeetingSummaryService(library: library)
+    }
 
     static let definitions: [Tool] = [
         Tool(
@@ -49,6 +56,17 @@ struct MeetingTools: Sendable {
             ])
         ),
         Tool(
+            name: "meeting_summary",
+            description: "A summary of one meeting (summary, decisions, action items, open questions), written on-device by Apple Intelligence and cached next to the transcript. Generating one can take a minute for a long meeting.",
+            inputSchema: .object([
+                "type": "object",
+                "properties": .object([
+                    "meeting": .object(["type": "string", "description": "Meeting id from list_meetings, or 'latest'. Default 'latest'."]),
+                    "refresh": .object(["type": "boolean", "description": "Regenerate even if a summary is cached. Default false."]),
+                ]),
+            ])
+        ),
+        Tool(
             name: "live_meeting",
             description: "The last few minutes of the meeting being captioned right now, if one is in progress.",
             inputSchema: .object([
@@ -60,11 +78,12 @@ struct MeetingTools: Sendable {
         ),
     ]
 
-    func call(_ name: String, arguments: [String: Value]) throws -> String {
+    func call(_ name: String, arguments: [String: Value]) async throws -> String {
         switch name {
         case "list_meetings": try listMeetings(limit: arguments["limit"]?.intValue ?? 20)
         case "get_transcript": try transcript(arguments)
         case "search_transcripts": try search(arguments)
+        case "meeting_summary": try await summary(arguments)
         case "live_meeting": try liveMeeting(minutes: arguments["minutes"]?.doubleValue ?? 5)
         default: throw ToolError(message: "Unknown tool: \(name)")
         }
@@ -113,6 +132,15 @@ struct MeetingTools: Sendable {
         return hits.map { hit in
             "\(hit.meeting.id) " + format([hit.utterance], relativeTo: hit.meeting.startedAt, text: .both)
         }.joined(separator: "\n")
+    }
+
+    private func summary(_ arguments: [String: Value]) async throws -> String {
+        let id = arguments["meeting"]?.stringValue ?? "latest"
+        guard let meeting = try library.meeting(id: id) else {
+            throw ToolError(message: id == "latest" ? "No meetings recorded yet." : "No meeting with id '\(id)'. Use list_meetings to see ids.")
+        }
+        let summary = try await summaries.summary(for: meeting, refresh: arguments["refresh"]?.boolValue ?? false)
+        return "Summary of meeting \(meeting.id) — \(describe(meeting, lineCount: try library.utterances(of: meeting).count))\n\n" + summary
     }
 
     private func liveMeeting(minutes: Double) throws -> String {

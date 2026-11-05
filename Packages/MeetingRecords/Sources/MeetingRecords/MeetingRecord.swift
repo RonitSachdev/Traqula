@@ -64,6 +64,11 @@ public actor MeetingRecord {
         directory.appending(path: transcriptFileName)
     }
 
+    /// Where a generated summary of the meeting is kept, next to its transcript.
+    public static func summaryURL(in directory: URL) -> URL {
+        directory.appending(path: "summary.md")
+    }
+
     // MARK: Files
 
     private static let manifestFileName = "meeting.json"

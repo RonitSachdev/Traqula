@@ -54,6 +54,9 @@ targets:
       - package: swift-log
         product: Logging
       - package: MeetingRecords
+        product: MeetingRecords
+      - package: MeetingRecords
+        product: MeetingSummaries
   TraqulaTests:
     type: bundle.unit-test
     platform: macOS

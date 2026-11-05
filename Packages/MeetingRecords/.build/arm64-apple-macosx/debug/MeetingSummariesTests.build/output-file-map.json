@@ -1,0 +1,12 @@
+{
+  "": {
+    "swift-dependencies": "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingSummariesTests.build/master.swiftdeps"
+  },
+  "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/Tests/MeetingSummariesTests/MeetingSummarizerTests.swift": {
+    "dependencies": "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingSummariesTests.build/MeetingSummarizerTests.d",
+    "object": "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingSummariesTests.build/MeetingSummarizerTests.swift.o",
+    "swiftmodule": "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingSummariesTests.build/MeetingSummarizerTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingSummariesTests.build/MeetingSummarizerTests.swiftdeps",
+    "diagnostics": "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingSummariesTests.build/MeetingSummarizerTests.dia"
+  }
+}

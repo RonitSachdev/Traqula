@@ -57,7 +57,7 @@
       ],
       "otherArguments" : [
         "-target",
-        "arm64-apple-macosx15.0",
+        "arm64-apple-macosx26.0",
         "-incremental",
         "-enable-batch-mode",
         "-serialize-diagnostics",
@@ -153,6 +153,10 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/Modules/MeetingSummariesTests.swiftmodule"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/Modules/MeetingRecordsTests.swiftmodule"
         },
         {
@@ -168,7 +172,7 @@
       ],
       "otherArguments" : [
         "-target",
-        "arm64-apple-macosx15.0",
+        "arm64-apple-macosx26.0",
         "-incremental",
         "-enable-batch-mode",
         "-serialize-diagnostics",
@@ -274,7 +278,7 @@
       ],
       "otherArguments" : [
         "-target",
-        "arm64-apple-macosx15.0",
+        "arm64-apple-macosx26.0",
         "-incremental",
         "-enable-batch-mode",
         "-serialize-diagnostics",
@@ -348,6 +352,217 @@
       ],
       "tempsPath" : "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingRecordsTests.build",
       "wholeModuleOptimization" : false
+    },
+    "C.MeetingSummaries-arm64-apple-macosx26.0-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingSummaries.build/sources",
+      "importPath" : "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/Sources/MeetingSummaries/MeetingSummarizer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/Sources/MeetingSummaries/MeetingSummaryService.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/Modules/MeetingRecords.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingSummaries.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "MeetingSummaries",
+      "moduleOutputPath" : "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/Modules/MeetingSummaries.swiftmodule",
+      "objects" : [
+        "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingSummaries.build/MeetingSummarizer.swift.o",
+        "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingSummaries.build/MeetingSummaryService.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx26.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-j10",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingSummaries.build/include/MeetingSummaries-Swift.h",
+        "-swift-version",
+        "6",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "meetingrecords"
+      ],
+      "outputFileMapPath" : "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingSummaries.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingSummaries.build/MeetingSummarizer.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingSummaries.build/MeetingSummaryService.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/Modules/MeetingSummaries.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/Sources/MeetingSummaries/MeetingSummarizer.swift",
+        "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/Sources/MeetingSummaries/MeetingSummaryService.swift"
+      ],
+      "tempsPath" : "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingSummaries.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.MeetingSummariesTests-arm64-apple-macosx26.0-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingSummariesTests.build/sources",
+      "importPath" : "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/Tests/MeetingSummariesTests/MeetingSummarizerTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/Modules/MeetingSummaries.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingSummariesTests.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "MeetingSummariesTests",
+      "moduleOutputPath" : "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/Modules/MeetingSummariesTests.swiftmodule",
+      "objects" : [
+        "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingSummariesTests.build/MeetingSummarizerTests.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx26.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-Xfrontend",
+        "-enable-cross-import-overlays",
+        "-j10",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-swift-version",
+        "6",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "meetingrecords"
+      ],
+      "outputFileMapPath" : "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingSummariesTests.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingSummariesTests.build/MeetingSummarizerTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/Modules/MeetingSummariesTests.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/Tests/MeetingSummariesTests/MeetingSummarizerTests.swift"
+      ],
+      "tempsPath" : "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingSummariesTests.build",
+      "wholeModuleOptimization" : false
     }
   },
   "swiftFrontendCommands" : {
@@ -367,7 +582,7 @@
       "-I",
       "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/Modules",
       "-target",
-      "arm64-apple-macosx15.0",
+      "arm64-apple-macosx26.0",
       "-incremental",
       "-enable-batch-mode",
       "-serialize-diagnostics",
@@ -433,7 +648,7 @@
       "-I",
       "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/Modules",
       "-target",
-      "arm64-apple-macosx15.0",
+      "arm64-apple-macosx26.0",
       "-incremental",
       "-enable-batch-mode",
       "-serialize-diagnostics",
@@ -500,7 +715,139 @@
       "-I",
       "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/Modules",
       "-target",
-      "arm64-apple-macosx15.0",
+      "arm64-apple-macosx26.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-Xfrontend",
+      "-enable-cross-import-overlays",
+      "-j10",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-swift-version",
+      "6",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "meetingrecords",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "MeetingSummaries" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "MeetingSummaries",
+      "-package-name",
+      "meetingrecords",
+      "-c",
+      "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/Sources/MeetingSummaries/MeetingSummarizer.swift",
+      "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/Sources/MeetingSummaries/MeetingSummaryService.swift",
+      "-I",
+      "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx26.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-j10",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingSummaries.build/include/MeetingSummaries-Swift.h",
+      "-swift-version",
+      "6",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "meetingrecords",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "MeetingSummariesTests" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "MeetingSummariesTests",
+      "-package-name",
+      "meetingrecords",
+      "-c",
+      "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/Tests/MeetingSummariesTests/MeetingSummarizerTests.swift",
+      "-I",
+      "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx26.0",
       "-incremental",
       "-enable-batch-mode",
       "-serialize-diagnostics",
@@ -561,9 +908,18 @@
     ],
     "MeetingRecordsPackageTests" : [
       "MeetingRecordsTests",
+      "MeetingSummariesTests",
+      "MeetingSummaries",
       "MeetingRecords"
     ],
     "MeetingRecordsTests" : [
+      "MeetingRecords"
+    ],
+    "MeetingSummaries" : [
+      "MeetingRecords"
+    ],
+    "MeetingSummariesTests" : [
+      "MeetingSummaries",
       "MeetingRecords"
     ]
   },
@@ -655,6 +1011,18 @@
         {
           "kind" : "file",
           "name" : "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingRecordsTests.build/MeetingRecordTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingSummaries.build/MeetingSummarizer.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingSummaries.build/MeetingSummaryService.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingSummariesTests.build/MeetingSummarizerTests.swift.o"
         }
       ],
       "outputFilePath" : "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingRecordsPackageTests.product/Objects.LinkFileList"
@@ -676,6 +1044,38 @@
         }
       ],
       "outputFilePath" : "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingRecordsTests.build/sources"
+    },
+    "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingSummaries.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/Sources/MeetingSummaries/MeetingSummarizer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/Sources/MeetingSummaries/MeetingSummaryService.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingSummaries.build/sources"
+    },
+    "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingSummariesTests.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/Tests/MeetingSummariesTests/MeetingSummarizerTests.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/MeetingSummariesTests.build/sources"
     },
     "/Users/sachdevronit/Desktop/Personal Testing/translate-mac-app/Packages/MeetingRecords/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt" : {
       "alwaysOutOfDate" : true,
